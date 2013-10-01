@@ -1,6 +1,5 @@
 function [next_p, next_theta ] = aoi_func(img, p0, theta0, box_width, box_height)
-% aoi_func takes in a grayscale image(uint8) and a start point/angle
-% generates next aoi(area of interest) and returns new point/angle
+% aoi_func takes in a grayscale image(uint8) and a start th
 
 
 A = [1 0
