@@ -1,4 +1,6 @@
 function [points thetas] = curve_func(img, p0, theta0, aoi_width, aoi_height, num)
+% curve_func takes an image and initial point/angle
+% attempts to follow curve using num boxes of size (aoi_width, aoi_height).
 
 img = rgb2gray(img);
 points = zeros(2,4);
