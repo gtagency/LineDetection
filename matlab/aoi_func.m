@@ -10,12 +10,14 @@ R = [cos(pi/2-theta0) -sin(pi/2-theta0)
 
 rot_img = rotateAround(img, p0(2), p0(1), radtodeg(pi/2-theta0));
 
-left_x = round(p0(1) - box_width/2);
-right_x = round(p0(1) + box_width/2);
-bot_y = round(p0(2));
-top_y = round(p0(2) - box_height);
+left_x = round(p0(1) - box_width/2)
+right_x = round(p0(1) + box_width/2)
+bot_y = round(p0(2))
+top_y = round(p0(2) - box_height)
+size(img)
 
 aoi = edge(rot_img(top_y:bot_y, left_x:right_x), 'canny');
+num_points = sum(aoi(:));
 
 [y x] = find(aoi==1);
 aoi_points = [x'; y'];

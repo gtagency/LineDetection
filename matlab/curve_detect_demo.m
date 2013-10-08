@@ -5,7 +5,7 @@ box_height = 40;
 box_width = 20;
 start_p = [350; 705];
 start_theta = pi/2.7;
-num = 10;
+num = 15;
 
 rgb_frame = imread('images/sample_image.png');
 imshow(rgb_frame);
