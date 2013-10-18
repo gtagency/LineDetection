@@ -8,7 +8,7 @@ A = [1 0
 R = [cos(pi/2-theta0) -sin(pi/2-theta0)
      sin(pi/2-theta0) cos(pi/2-theta0)];
 
-rot_img = rotateAround(img, p0(2), p0(1), radtodeg(pi/2-theta0));
+rot_img = rotateAround(img, p0(2), p0(1), rad2deg(pi/2-theta0));
 
 left_x = round(p0(1) - box_width/2)
 right_x = round(p0(1) + box_width/2)
