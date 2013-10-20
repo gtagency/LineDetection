@@ -53,7 +53,9 @@ double CurveDetect::findBestTheta(const Mat& roi, Point center, int radius) {
     for (int ii = 0; ii < 360; ii++) {
         int x = boxWidth/2 + radius * cos(ii / twoPi);
         int y = boxHeight/2 + radius * sin(ii / twoPi);
+#ifdef DEBUG
         printf("%d", roi.at<uchar>(y,x));
+#endif
         if (roi.at<uchar>(y,x) != 0) {
             theta = ii / twoPi;
             found = true;
@@ -111,7 +113,9 @@ Rect CurveDetect::getROIRect(const Point& pt) {
     //TODO: may have to be negative or something
     float x = fmax(0, pt.x - boxWidth/2);
     float y = fmax(0, pt.y - boxHeight);
-    printf("%f, %f, %d, %d\n", x, y, boxWidth, boxHeight);
+#ifdef DEBUG
+    printf("ROI Rect: %f, %f, %d, %d\n", x, y, boxWidth, boxHeight);
+#endif
     return Rect(x, y, boxWidth, boxHeight);
 }
 
@@ -316,46 +320,4 @@ std::vector<Point>& CurveDetect::getPointsOnCurve() {
 }
 std::vector<float>& CurveDetect::getAnglesOfIncidence() {
     return this->thetas;
-}
-
-Scalar LOW_HSV = Scalar(60, 50, 50);
-Scalar HIGH_HSV = Scalar(90, 255, 255);
-void getBinary(Mat& src, Scalar& low_HSV, Scalar& hi_HSV, Mat& dest) {
-    Mat frame = src.clone();
-    cvtColor(frame, frame, CV_BGR2HSV);
-    Mat bw;
-    inRange(frame, low_HSV, hi_HSV, bw);
-    // vector<vector<Point> > contours;
-    // findContours(bw.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-    // 
-    // dest = Mat::zeros(bw.size(), bw.type());
-    // drawContours(dest, contours, -1, Scalar::all(255), CV_FILLED);
-    dest = bw;
-}
-
-
-int main(int argc, const char **argv) {
-    Mat src = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    Mat bin = src;
-    getBinary(src, LOW_HSV, HIGH_HSV, bin);
-    
-    CurveDetect cd = CurveDetect(40, 20);
-    Point start = Point(350, 705);
-    cd.fitCurve(bin, start, 15);
-    
-    Mat show = src.clone();
-    Point pt = start;
-    for (std::vector<Point>::iterator it = cd.getPointsOnCurve().begin();
-         it != cd.getPointsOnCurve().end();
-         it++) {
-         printf ("%d, %d, %d, %d\n", pt.x, pt.y, it->x, it->y);
-        line(show, pt, *it, Scalar(127, 127, 127));
-        pt = *it;
-    }
-
-    namedWindow( "Display window", CV_WINDOW_AUTOSIZE );// Create a window for display.
-    imshow( "Display window", show );                   // Show our image inside it.
-    waitKey(0);
-    
-    
 }
